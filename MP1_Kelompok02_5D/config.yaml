@@ -1,0 +1,51 @@
+# config.yaml - Konfigurasi Proyek
+project:
+  name: "MP1_Kelompok02_5D"
+  group: "02"
+  class: "5D"
+  members:
+    - name: "Anggota 1"
+      nim: "NIM001"
+    - name: "Anggota 2"
+      nim: "NIM002"
+    - name: "Anggota 3"
+      nim: "NIM003"
+    - name: "Anggota 4"
+      nim: "NIM004"
+
+fis_config:
+  input_variables:
+    - name: "Suhu"
+      range: [30, 90]
+      mf:
+        - name: "Rendah"
+          type: "trapmf"
+          params: [30, 30, 50, 55]
+        - name: "Sedang"
+          type: "trapmf"
+          params: [50, 60, 70, 75]
+        - name: "Tinggi"
+          type: "trapmf"
+          params: [70, 80, 90, 90]
+  
+  output_variables:
+    - name: "Risiko"
+      range: [0, 100]
+      mf:
+        - name: "Rendah"
+          type: "trapmf"
+          params: [0, 0, 30, 40]
+        - name: "Sedang"
+          type: "trapmf"
+          params: [30, 50, 60, 70]
+        - name: "Tinggi"
+          type: "trapmf"
+          params: [60, 75, 100, 100]
+
+rules:
+  - "IF Suhu Rendah AND Baterai Bagus AND Pemakaian Ringan THEN Risiko Rendah"
+  - "IF Suhu Sedang AND Baterai Sedang AND Pemakaian Sedang THEN Risiko Sedang"
+  - "IF Suhu Tinggi OR Baterai Buruk OR Pemakaian Berat THEN Risiko Tinggi"
+  - "IF Suhu Sedang AND Baterai Bagus AND Pemakaian Ringan THEN Risiko Rendah"
+  - "IF Suhu Rendah AND Baterai Sedang AND Pemakaian Berat THEN Risiko Sedang"
+  - "IF Suhu Tinggi AND Baterai Bagus AND Pemakaian Sedang THEN Risiko Sedang"

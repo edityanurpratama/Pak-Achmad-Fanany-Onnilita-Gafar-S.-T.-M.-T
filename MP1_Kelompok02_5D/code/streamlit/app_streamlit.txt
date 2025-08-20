@@ -1,0 +1,51 @@
+# app_streamlit.py - Streamlit App untuk Prediksi Risiko Laptop
+# Kelompok 02 - Kelas 5D
+
+st.title('Prediksi Risiko Laptop dengan Fuzzy Logic')
+import streamlit as st
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
+
+# Build fuzzy system
+def build_fis():
+	# Define variables
+	Suhu = ctrl.Antecedent(np.arange(30, 91, 1), 'Suhu')
+	Baterai = ctrl.Antecedent(np.arange(0, 101, 1), 'Baterai')
+	Pemakaian = ctrl.Antecedent(np.arange(0, 13, 1), 'Pemakaian')
+	Risiko = ctrl.Consequent(np.arange(0, 101, 1), 'Risiko')
+
+	# Membership functions - FIXED PARAMETERS
+	# Suhu
+	Suhu['Rendah'] = fuzz.trapmf(Suhu.universe, [30, 30, 50, 55])
+	Suhu['Sedang'] = fuzz.trapmf(Suhu.universe, [50, 60, 70, 75])
+	Suhu['Tinggi'] = fuzz.trapmf(Suhu.universe, [70, 80, 90, 90])
+    
+	# Baterai
+	Baterai['Buruk'] = fuzz.trapmf(Baterai.universe, [0, 0, 50, 60])
+	Baterai['Sedang'] = fuzz.trapmf(Baterai.universe, [50, 65, 80, 85])
+	Baterai['Bagus'] = fuzz.trapmf(Baterai.universe, [80, 90, 100, 100])
+    
+	# Pemakaian
+	Pemakaian['Ringan'] = fuzz.trapmf(Pemakaian.universe, [0, 0, 3, 4])
+	Pemakaian['Sedang'] = fuzz.trapmf(Pemakaian.universe, [2, 4, 6, 7])
+	Pemakaian['Berat'] = fuzz.trapmf(Pemakaian.universe, [6, 8, 12, 12])
+    
+	# Risiko (Output)
+	Risiko['Rendah'] = fuzz.trapmf(Risiko.universe, [0, 0, 30, 40])
+	Risiko['Sedang'] = fuzz.trapmf(Risiko.universe, [30, 50, 60, 70])
+	Risiko['Tinggi'] = fuzz.trapmf(Risiko.universe, [60, 75, 100, 100])
+
+	# Rules
+	rules = [
+		ctrl.Rule(Suhu['Rendah'] & Baterai['Bagus'] & Pemakaian['Ringan'], Risiko['Rendah']),
+		ctrl.Rule(Suhu['Sedang'] & Baterai['Sedang'] & Pemakaian['Sedang'], Risiko['Sedang']),
+		ctrl.Rule(Suhu['Tinggi'] | Baterai['Buruk'] | Pemakaian['Berat'], Risiko['Tinggi']),
+		ctrl.Rule(Suhu['Sedang'] & Baterai['Bagus'] & Pemakaian['Ringan'], Risiko['Rendah']),
+		ctrl.Rule(Suhu['Rendah'] & Baterai['Sedang'] & Pemakaian['Berat'], Risiko['Sedang']),
+		ctrl.Rule(Suhu['Tinggi'] & Baterai['Bagus'] & Pemakaian['Sedang'], Risiko['Sedang'])
+	]
+"""
+	# Create control system

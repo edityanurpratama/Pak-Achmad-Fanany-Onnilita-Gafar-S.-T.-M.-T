@@ -1,0 +1,11 @@
+ATURAN FUZZY - SISTEM PENILAIAN RISIKO LAPTOP
+=============================================
+
+Tanggal: 19-Aug-2025 23:04:16
+
+Aturan 1: JIKA Suhu Rendah DAN Baterai Bagus DAN Pemakaian Ringan MAKA Risiko Rendah (Operator=1)
+Aturan 2: JIKA Suhu Sedang DAN Baterai Sedang DAN Pemakaian Sedang MAKA Risiko Sedang (Operator=1)
+Aturan 3: JIKA Suhu Tinggi DAN Baterai Buruk DAN Pemakaian Berat MAKA Risiko Tinggi (Operator=2)
+Aturan 4: JIKA Suhu Sedang DAN Baterai Bagus DAN Pemakaian Ringan MAKA Risiko Rendah (Operator=1)
+Aturan 5: JIKA Suhu Rendah DAN Baterai Sedang DAN Pemakaian Berat MAKA Risiko Sedang (Operator=1)
+Aturan 6: JIKA Suhu Tinggi DAN Baterai Bagus DAN Pemakaian Sedang MAKA Risiko Sedang (Operator=1)

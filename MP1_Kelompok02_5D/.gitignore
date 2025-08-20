@@ -53,3 +53,25 @@ dkms.conf
 
 # debug information files
 *.dwo
+
+# MATLAB
+*.m~
+*.asv
+*.mat
+*.fig
+
+# Octave
+*.octave
+
+# Python
+__pycache__/
+*.pyc
+
+# Data besar
+*.csv
+*.xlsx
+*.pdf
+
+# Temporary files
+*.tmp
+*.temp
